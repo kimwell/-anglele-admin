@@ -16,7 +16,7 @@ const router = new Router({
       path: '/',
       name: 'main',
       redirect: '/index',
-      component: resolve => require(['@/views/layout/layoutTmp/index.vue'], resolve),
+      component: resolve => require(['@/views/layout/layoutTmp/Vlayout.vue'], resolve),
       children: [{
         path: '/index',
         name: 'index',

@@ -13,8 +13,9 @@ import router from './router'
 // axios 配置
 // axios.defaults.timeout = 20000;
 if (process.env.NODE_ENV == 'development')
-axios.defaults.baseURL = 'http://192.168.0.252:8080';
+// axios.defaults.baseURL = 'http://192.168.0.252:8080';
 // axios.defaults.baseURL = 'http://192.168.0.160:8080'; //胡
+axios.defaults.baseURL = 'http://192.168.0.241:8080'; //胡
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'; //配置请求头
 axios.defaults.withCredentials = true;
 

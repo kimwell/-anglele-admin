@@ -182,14 +182,14 @@
       // 移至接口池
       removeGroup(item) {
         this.$Modal.confirm({
-          title: '删除移至接口池？',
-          content: '此操作将无法撤销,是否继续？',
+          title: '移至接口池？',
+          content: '接口将移出所有分组，转移至接口池,确定是否继续？',
           onOk: () => {
             this.$http.post(this.$api.removeTags, {
               id: item.id
             }).then(res => {
               if (res.code === 1000) {
-                this.$Message.success('删除成功!');
+                this.$Message.success('移除成功!');
                 this.getList(this.pageFilter);
               } else {
                 this.$Message.error(res.message);

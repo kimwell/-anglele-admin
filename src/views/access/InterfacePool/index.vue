@@ -61,7 +61,7 @@
         </FormItem>
         <FormItem label="资源访问：">
           <RadioGroup v-model="dataApi.permissionType">
-            <Radio v-for="(item,index) in [{value: 1,name:'不需要登录'},{value: 2,name:'需要登录'}]" :label="item.value">
+            <Radio v-for="(item,index) in [{value: 1,name:'不需要登录'},{value: 2,name:'需要登录'}]" :label="item.value" :key="index">
               <span>{{item.name}}</span>
             </Radio>
           </RadioGroup>
@@ -80,7 +80,7 @@
       </div>
     </Modal>
     <Modal title="添加分组" width="600" v-model="tagShow" :mask-closable="false">
-      <Form ref="formModel" :model="tagApi" :rules="tagRule" :label-width="100">
+      <Form ref="formModel2" :model="tagApi" :rules="tagRule" :label-width="100">
         <FormItem label="接口名称：">
           {{tagItem.name}}
         </FormItem>
@@ -94,8 +94,8 @@
         </FormItem>
       </Form>
       <div slot="footer">
-        <Button type="primary" @click="saveGroup('formModel')" :loading="loading">保存</Button>
-        <Button @click="resetGroup('formModel')">取消</Button>
+        <Button type="primary" @click="saveGroup('formModel2')" :loading="loading">保存</Button>
+        <Button @click="resetGroup('formModel2')">取消</Button>
       </div>
     </Modal>
   </div>
@@ -279,6 +279,7 @@
               if (res.code === 1000) {
                 this.$Message.success('编辑成功')
                 this.getList(this.pageFilter);
+                this.resetGroup('formModel2');
               } else {
                 this.$Message.error(res.message);
               }
@@ -292,6 +293,10 @@
       },
       resetGroup(name) {
         this.tagShow = false;
+        this.tagApi = {
+          id: '',
+          tags: []
+        }
         this.$refs[name].resetFields();
       }
     },
