@@ -8,6 +8,7 @@ import clickoutside from './directives/clickoutside'
 import * as filters from './filters/index' //过滤器
 import axios from './http'
 import * as api from './api'
+import _ from 'lodash'
 
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])

@@ -1,22 +1,24 @@
 <template>
   <div class="layout-aside">
-  
+    <menuTree :treeData="menu" v-model="currentRoute"></menuTree>
   </div>
 </template>
 
 <script>
+  import menu from '@/utils/menu.js'
+  import menuTree from '@/components/menuTree/tree'
   export default {
-    components: {},
+    components: {
+      menuTree
+    },
     data() {
       return {
         menu: menu,
+        currentRoute:{}
       }
     },
-    computed: {
-  
-    },
     methods: {
-      
+     
     },
     created() {}
   }

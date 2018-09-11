@@ -1,20 +1,18 @@
 <template>
   <div>
-    首页
+    角色
   </div>
 </template>
 
 <script>
   export default {
-    components: {},
     data() {
       return {}
     },
-    methods: {},
-    created() {}
+    methods: {}
   }
 </script>
 
 <style lang='less' scoped>
-
+  
 </style>

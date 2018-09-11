@@ -24,6 +24,41 @@ const router = new Router({
         meta: {
           requireAuth: true
         }
+      }, {
+        path: '/access/Interface',
+        name: 'Interface',
+        component: resolve => require(['@/views/access/Interface/index.vue'], resolve),
+        meta: {
+          requireAuth: true
+        }
+      }, {
+        path: '/access/InterfacePool',
+        name: 'InterfacePool',
+        component: resolve => require(['@/views/access/InterfacePool/index.vue'], resolve),
+        meta: {
+          requireAuth: true
+        }
+      }, {
+        path: '/access/accessApp',
+        name: 'accessApp',
+        component: resolve => require(['@/views/access/accessApp/index.vue'], resolve),
+        meta: {
+          requireAuth: true
+        }
+      }, {
+        path: '/access/accessMenu',
+        name: 'accessMenu',
+        component: resolve => require(['@/views/access/menu/index.vue'], resolve),
+        meta: {
+          requireAuth: true
+        }
+      }, {
+        path: '/access/accessRole',
+        name: 'accessRole',
+        component: resolve => require(['@/views/access/role/index.vue'], resolve),
+        meta: {
+          requireAuth: true
+        }
       }]
     },
     {
