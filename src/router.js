@@ -59,6 +59,13 @@ const router = new Router({
         meta: {
           requireAuth: true
         }
+      }, {
+        path: '/access/accessBind',
+        name: 'accessBind',
+        component: resolve => require(['@/views/access/accessBind/index.vue'], resolve),
+        meta: {
+          requireAuth: true
+        }
       }]
     },
     {

@@ -1,4 +1,10 @@
 /**
+ * 上传文件
+ */
+export const upload = 'http://192.168.0.160:8080/auth/file/upload'
+
+
+/**
  * 查询已分组接口
  */
 export const findPermissionListWithTag = '/auth/permission/findPermissionListWithTag'
@@ -102,3 +108,39 @@ export const roleList = '/auth/role/list'
  * 角色编辑保存
  */
 export const roleSave = '/auth/role/save'
+
+/**
+ * 角色接口查询
+ */
+export const findPermission = '/auth/role/findPermission'
+
+
+/**
+ * 角色接口保存
+ */
+export const addPermission = '/auth/role/addPermission'
+
+/**
+ * 角色接口删除
+ */
+export const delRolePermission = '/auth/role/delPermission'
+
+/**
+ * 查询用户列表
+ */
+export const findBaseUserList = '/auth/baseuser/findBaseUserList'
+
+/**
+ * 新增用户
+ */
+export const saveBaseUser = '/auth/baseuser/saveBaseUser'
+
+/**
+ * 修改用户
+ */
+export const updateBaseUser = '/auth/baseuser/updateBaseUser'
+
+/**
+ * 修改用户
+ */
+export const modifyBaseUser = '/auth/baseuser/modifyBaseUser'

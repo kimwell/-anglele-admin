@@ -31,6 +31,12 @@ export default [{
     expand: false,
     children: [],
     url: '/access/accessRole'
+  },{
+    title: '角色绑定',
+    icon: 'icon-jiaoseyonghu',
+    expand: false,
+    children: [],
+    url: '/access/accessBind'
   }]
 }, {
   title: '角色管理',

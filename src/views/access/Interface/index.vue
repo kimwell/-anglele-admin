@@ -229,7 +229,7 @@
   }
 </script>
 
-<style lang='less'>
+<style lang='less' scoped>
   .page-inner {
     .extra-button {
       margin-top: -4px;
