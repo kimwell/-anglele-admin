@@ -66,6 +66,13 @@ const router = new Router({
         meta: {
           requireAuth: true
         }
+      }, {
+        path: '/access/bindMenu',
+        name: 'bindMenu',
+        component: resolve => require(['@/views/access/bindMenu/index.vue'], resolve),
+        meta: {
+          requireAuth: true
+        }
       }]
     },
     {

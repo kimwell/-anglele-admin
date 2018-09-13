@@ -1,9 +1,7 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
-import * as api from '../api.js'
 import * as types from './types'
 import VueLocalStorage from 'vue-ls';
-import axios from 'axios'
 
 
 Vue.use(VueLocalStorage);
@@ -117,36 +115,6 @@ export default new Vuex.Store({
     // 关闭闭市发布求购面板
     [types.HIDE_PANEL]: (state) => {
       state.pbPanel = false
-    }
-  },
-  actions: {
-    updateUserinfo(context, payload) {
-      context.commit(types.UPDATE_USER_INFO, payload);
-    },
-    loginOut(context) {
-      context.commit(types.LOGOUT);
-    },
-    getUserCount(context) {
-      axios.post(api.getNums).then(res => {
-        if (res.code === 1000) {
-          context.commit(types.SAVE_USER_COUNT, res.data);
-        }
-      })
-    },
-    showPb(context) {
-      context.commit(types.SHOW_PUBLISH)
-    },
-    hidePb(context) {
-      context.commit(types.HIDE_PUBLISH)
-    },
-    updeatePush(context, payload) {
-      context.commit(types.UPDATE_PUSH_MSG, payload)
-    },
-    showPanel(context) {
-      context.commit(types.SHOW_PANEL)
-    },
-    hidePanel(context) {
-      context.commit(types.HIDE_PANEL)
     }
   }
 });

@@ -37,15 +37,11 @@ export default [{
     expand: false,
     children: [],
     url: '/access/accessBind'
-  }]
-}, {
-  title: '角色管理',
-  expand: false,
-  children: [{
-    title: '角色管理',
+  },{
+    title: '菜单绑定',
     icon: 'icon-jiaoseyonghu',
     expand: false,
     children: [],
-    url: ''
+    url: '/access/bindMenu'
   }]
 }]

@@ -144,3 +144,14 @@ export const updateBaseUser = '/auth/baseuser/updateBaseUser'
  * 修改用户
  */
 export const modifyBaseUser = '/auth/baseuser/modifyBaseUser'
+
+/**
+ * 角色菜单查询
+ */
+export const findMenu = '/auth/role/findMenu'
+
+
+/**
+ * 角色菜单查询
+ */
+export const editMenu = '/auth/role/editMenu'

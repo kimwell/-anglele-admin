@@ -37,7 +37,7 @@
             <Tag v-for="(sub,index) in item.roles" color="primary">{{sub.name}}</Tag>
             </Col>
             <Col class-name="col" span="4">
-            <Button type="warning" size="small" @click="openPanel(true,item)">编辑</Button>
+            <Button type="warning" size="small" @click="openPanel(true,item)" style="margin: 0 10px;">编辑</Button>
             <Button type="warning" size="small" @click="delUser(item)">删除</Button>
             </Col>
           </Row>
