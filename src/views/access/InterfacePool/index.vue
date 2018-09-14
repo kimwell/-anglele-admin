@@ -39,7 +39,7 @@
             <Col class-name="col" span="4" class="options">
             <Button type="primary" size="small" @click="openPanel(item)">编辑</Button>
             <Button type="primary" size="small" @click="changeGroup(item)" style="margin:0 10px;">添加分组</Button>
-            <Button type="error" size="small" @click="delTag(item)">删除</Button>
+            <!-- <Button type="error" size="small" @click="delTag(item)">删除</Button> -->
             </Col>
           </Row>
           <Row v-if="list.length == 0">

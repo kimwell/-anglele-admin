@@ -20,12 +20,13 @@
           </RadioGroup>
         </FormItem>
         <FormItem label="菜单图标：">
-          <Input v-model="dataApi.icon" placeholder="请输入"></Input>
+          <Input v-model="dataApi.icon" v-if="dataApi.iconType === 1" placeholder="请输入"></Input>
+          <uploadBtn v-model="dataApi.icon" v-if="dataApi.iconType === 2"></uploadBtn>
         </FormItem>
         <FormItem label="应用代码：" prop="appCode">
           <Select v-model="dataApi.appCode" :clearable="true" style="width: 160px;">
-                              <Option v-for="(item,index) in appList" :value="item.code" :key="index">{{ item.name }}</Option>
-                            </Select>
+            <Option v-for="(item,index) in appList" :value="item.code" :key="index">{{ item.name }}</Option>
+          </Select>
         </FormItem>
         <FormItem label="打开方式：" prop="openType">
           <RadioGroup v-model="dataApi.openType">
@@ -53,10 +54,12 @@
 </template>
 
 <script>
+import uploadBtn from '@/components/uploadBtn'
   import menuZtree from "@/components/menuZtree/ztree";
   export default {
     components: {
-      menuZtree
+      menuZtree,
+      uploadBtn
     },
     data() {
       return {
@@ -106,6 +109,11 @@
         },
         appList: [],
         editItem: {}
+      }
+    },
+    watch:{
+      'dataApi.iconType'(){
+        this.dataApi.icon = '';
       }
     },
     methods: {

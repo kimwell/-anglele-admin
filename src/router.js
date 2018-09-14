@@ -11,7 +11,7 @@ Vue.use(Router);
 
 const router = new Router({
   mode: 'history',
-  base: '/bg/',
+  base: '/auth/bg/',
   routes: [{
       path: '/',
       name: 'main',

@@ -29,10 +29,18 @@
             this.$store.commit(types.SET_USER_INFO, res.data);
           }
         })
+      },
+      getSet(){
+        this.$http.post(this.$api.authSettings).then(res =>{
+          if(res.code === 1000){
+            // console.log(res)
+          }
+        })
       }
     },
     created() {
       this.getUserInfo();
+      this.getSet();
     }
   }
 </script>
