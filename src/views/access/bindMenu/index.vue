@@ -17,7 +17,7 @@
       <div class="role-api">
         <Card class="role-api-card" :bordered="false" dis-hover title="绑定菜单">
           <Button type="primary" slot="extra" :disabled="!btnDis" @click="saveBindMneu">绑定菜单</Button>
-          <Tree :data="menuList" ref="menuTree" @on-check-change="checkHandle" expand="true" show-checkbox></Tree>
+          <Tree :data="menuList" ref="menuTree" @on-check-change="checkHandle" show-checkbox></Tree>
         </Card>
       </div>
       </Col>
@@ -154,7 +154,6 @@
 <style lang='less' scoped>
   .page-inner {
     .role-list {
-      padding: 5px;
       height: calc(100vh - 65px);
       overflow-y: auto;
       margin-right: 10px;

@@ -1,7 +1,7 @@
 /**
  * 上传文件
  */
-export const upload = 'http://192.168.0.160:8080/auth/file/upload'
+export const upload = 'http://192.168.0.252:8081/auth/file/upload'
 
 
 /**
@@ -172,3 +172,9 @@ export const findMenu = '/auth/role/findMenu'
  * 角色菜单查询
  */
 export const editMenu = '/auth/role/editMenu'
+
+
+/**
+ * 角色菜单查询
+ */
+export const syncPermission = '/auth/permission/syncPermission'

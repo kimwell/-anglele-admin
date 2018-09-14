@@ -1,7 +1,7 @@
 <template>
   <div class="page-inner">
     <Card :bordered="true" dis-hover title="接口池管理">
-      <!-- <Button type="primary" slot="extra" class="extra-button" @click="openPanel(false)">新增接口</Button> -->
+      <Button type="primary" slot="extra" class="extra-button" :loading="loading" @click="syncPermission">同步接口</Button>
       <Form :mode="pageApi" :label-width="100" inline>
         <FormItem label="接口名称：">
           <Input type="text" v-model="pageApi.name" placeholder="请输入..."></Input>
@@ -150,7 +150,8 @@
         tagApi: {
           id: '',
           tags: []
-        }
+        },
+        loading: false
       }
     },
     watch: {
@@ -181,6 +182,18 @@
       }
     },
     methods: {
+      // 同步接口
+      syncPermission(){
+        this.loading = true;
+        this.$http.post(this.$api.syncPermission).then(res =>{
+          if(res.code === 1000){
+            this.$Message.success('同步成功');
+          }else{
+            this.$Message.error(res.message);
+          }
+          this.loading = false;
+        })
+      },
       changePage(page) {
         this.pageApi.pageIndex = page;
       },

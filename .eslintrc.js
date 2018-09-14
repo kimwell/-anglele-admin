@@ -7,6 +7,11 @@ module.exports = {
     'plugin:vue/essential',
     'eslint:recommended'
   ],
+  overlay: {
+    warnings: false,
+    errors: false
+  },
+  lintOnSave: false,
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'

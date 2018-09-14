@@ -38,7 +38,7 @@
           </FormItem>
           <FormItem label="应用状态：">
             <RadioGroup v-model="dataApi.status">
-              <Radio v-for="(item,index) in [{value: 1,name:'正常'},{value: 2,name:'禁用'}]" :label="item.value">
+              <Radio v-for="(item,index) in [{value: 1,name:'正常'},{value: 2,name:'禁用'}]" :label="item.value" :key="index">
                 <span>{{item.name}}</span>
               </Radio>
             </RadioGroup>

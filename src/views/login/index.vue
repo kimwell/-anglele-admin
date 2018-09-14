@@ -5,7 +5,7 @@
         <Input v-model="loginApi.userName" placeholder="请输入..."></Input>
       </FormItem>
       <FormItem label="密码：" prop="password">
-        <Input v-model="loginApi.password" placeholder="请输入..."></Input>
+        <Input v-model="loginApi.password" type="password" placeholder="请输入..."></Input>
       </FormItem>
       <FormItem label="验证码：" prop="code">
         <Input v-model="loginApi.code" placeholder="请输入..."></Input>
@@ -32,7 +32,7 @@
           password: '',
           code: '',
           r: '',
-          roleCode: ''
+          roleCode: 'super'
         },
         random: '',
         rule: {
@@ -59,7 +59,7 @@
       picCodeUrl() {
         let host = "";
         if (window.location.hostname == "localhost")
-          host = "http://192.168.0.252:8080";
+          host = "http://192.168.0.252:8081";
         return host + this.$api.captcha + "?r=" + this.random;
       }
     },
@@ -101,7 +101,9 @@
         })
       },
       reset(name) {
-  
+
+        
+        this.$refs[name].resetFields();
       }
     },
     created() {

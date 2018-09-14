@@ -11,14 +11,19 @@
     components: {
       menuTree
     },
+    computed: {
+      menus(){
+        return this.$store.state.base.menu;
+      }
+    },
     data() {
       return {
         menu: menu,
-        currentRoute:{}
+        currentRoute: {}
       }
     },
     methods: {
-     
+  
     },
     created() {}
   }

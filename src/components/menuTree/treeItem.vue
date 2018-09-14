@@ -5,7 +5,7 @@
       <i v-else class="iconfont" :class="model.icon"></i>
       <span class="node-name">{{model.title}}</span>
     </a>
-    <div :style="{height: model.expand ? model.children.length * 40 +'px':''}">
+    <div :style="{height: model.expand ? model.children.length * 40 +'px':'0px'}">
       <ul>
         <ztree-item v-for="(item,i) in model.children" :key='i' :model="item" :trees='trees'></ztree-item>
       </ul>
@@ -20,8 +20,7 @@
       value: Object,
       model: Object,
       trees: {
-        type: Array,
-        default: []
+        type: Array
       }
     },
     data() {
@@ -34,7 +33,7 @@
           if (m.expand) {
             m.expand = !m.expand;
           } else {
-            var recurFunc = (data, list) => {
+            var recurFunc = (data,list) => {
               data.forEach((i) => {
                 if (i.title == m.title) {
                   i.expand = true;

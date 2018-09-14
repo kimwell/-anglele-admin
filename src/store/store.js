@@ -63,5 +63,10 @@ export default new Vuex.Store({
     [types.UPDATE_PUSH_MSG]: (state, payload) => {
       state.pushData = payload;
     }
+  },
+  actions: {
+    loginOut(context) {
+      context.commit(types.LOGOUT);
+    }
   }
 });

@@ -34,7 +34,7 @@
                 <Button type="primary" ghost @click="changeStatus(item)">{{item.status === 1 ? '正常':'禁用'}}</Button>
             </Col>
             <Col class-name="col" span="8">
-            <Tag v-for="(sub,index) in item.roles" color="primary">{{sub.name}}</Tag>
+            <Tag v-for="(sub,index) in item.roles" :key="index" color="primary">{{sub.name}}</Tag>
             </Col>
             <Col class-name="col" span="4">
             <Button type="warning" size="small" @click="openPanel(true,item)" style="margin: 0 10px;">编辑</Button>
