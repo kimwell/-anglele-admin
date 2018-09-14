@@ -14,13 +14,12 @@ import router from './router'
 // axios.defaults.timeout = 20000;
 if (process.env.NODE_ENV == 'development')
   axios.defaults.baseURL = 'http://192.168.0.252:8080';
-axios.defaults.baseURL = 'http://192.168.0.160:8080'; //胡
+// axios.defaults.baseURL = 'http://192.168.0.160:8080'; //胡
 // axios.defaults.baseURL = 'http://192.168.0.241:8080'; //胡
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'; //配置请求头
 axios.defaults.withCredentials = true;
 
 // 获取用户token
-let loginId = store.state.loginId;
 let authorization = store.state.authorization;
 
 // http request 拦截器
@@ -28,7 +27,6 @@ axios.interceptors.request.use(config => {
   LoadingBar.start();
   if (store.state.authorization || store.state.authorization != null) {
     config.headers.common['authorization'] = store.state.authorization;
-    config.headers.common['loginId'] = store.state.loginId;
   }
   config.data = Qs.stringify(config.data);
   return config;
@@ -61,19 +59,19 @@ axios.interceptors.response.use(response => {
       })
     }
   } else if (response.data.code === 1002) {
-    // Modal.confirm({
-    //     content: '您还不是商户，请认证！',
-    //     onOk() {
-    //         router.replace({
-    //             path: '/Authentication'
-    //         })
-    //     },
-    //     onCancel() {
-    //         router.replace({
-    //             path: '/'
-    //         })
-    //     }
-    // })
+    Modal.confirm({
+        content: '您还不是商户，请认证！',
+        onOk() {
+            router.replace({
+                path: '/index'
+            })
+        },
+        onCancel() {
+            router.replace({
+                path: '/'
+            })
+        }
+    })
   }
   return response.data;
 }, error => {

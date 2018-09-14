@@ -11,6 +11,7 @@
 </template>
 
 <script>
+  import * as types from '@/store/types'
   import layoutHeader from '../layoutHeader/index'
   import layoutAside from '../layoutAside/index.vue'
   export default {
@@ -21,7 +22,18 @@
     data() {
       return {}
     },
-    methods: {}
+    methods: {
+      getUserInfo() {
+        this.$http.post(this.$api.findCurrentUser).then(res => {
+          if (res.code === 1000) {
+            this.$store.commit(types.SET_USER_INFO, res.data);
+          }
+        })
+      }
+    },
+    created() {
+      this.getUserInfo();
+    }
   }
 </script>
 
@@ -40,7 +52,6 @@
       min-width: 1000px;
       margin: 0;
       background: #ebf1f5;
-      z-index: 999;
     }
   }
 </style>

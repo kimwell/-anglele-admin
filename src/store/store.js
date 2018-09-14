@@ -11,35 +11,21 @@ export default new Vuex.Store({
     user: undefined,
     base: '',
     authorization: Vue.ls.get('authorization'),
-    loginId: Vue.ls.get('loginId'),
     pushData: {
       body: '',
       code: '',
       time: '',
       title: '',
       type: ''
-    },
-    userCount: {
-      buyIron: 0,
-      buyOrder: 0,
-      sellIron: 1,
-      sellOrder: 1
-    },
-    pbShow: false,
-    pbPanel: false
+    }
   },
   getters: {
     isLogin: state => {
       return state.user != undefined
     },
-    roleId: state => {
-      //写死的超管id,后期修改为从state user中获取
-      return state.loginId
-    },
     ajaxHead: state => {
       return {
-        authorization: state.authorization,
-        loginId: state.loginId
+        authorization: state.authorization
       }
     },
     user: state => {
@@ -50,41 +36,21 @@ export default new Vuex.Store({
     },
     pushData: state => {
       return state.pushData
-    },
-    userCount: state => {
-      return state.userCount
-    },
-    pbShow: state => {
-      return state.pbShow
-    },
-    usrType: state => {
-      return state.base.usrType
-    },
-    isSellUser: state => {
-      return state.user != undefined ? state.user.isSellUser == 1 : true
-    },
-    pbPanel: state => {
-      return state.pbPanel
     }
   },
   mutations: {
     [types.LOGIN]: (state, payload) => {
       Vue.ls.set('authorization', payload.authorization);
-      Vue.ls.set('loginId', payload.loginId);
       state.authorization = payload.authorization;
-      state.loginId = payload.loginId;
     },
     [types.LOGOUT]: (state) => {
       Vue.ls.remove('authorization');
-      Vue.ls.remove('loginId');
       state.authorization = undefined;
-      state.loginId = undefined;
       state.user = undefined;
       state.base = '';
     },
     [types.SET_USER_INFO]: (state, payload) => {
-      state.user = payload.buserInfo;
-      delete payload.buserInfo;
+      state.user = payload.loginInfo;
       state.base = payload;
     },
     [types.UPDATE_USER_INFO]: (state, payload) => {
@@ -96,25 +62,6 @@ export default new Vuex.Store({
     // 消息推送commit
     [types.UPDATE_PUSH_MSG]: (state, payload) => {
       state.pushData = payload;
-    },
-    //订单，求购数据存储
-    [types.SAVE_USER_COUNT]: (state, payload) => {
-      state.userCount = payload;
-    },
-    // 显示隐藏发布面板
-    [types.SHOW_PUBLISH]: (state) => {
-      state.pbShow = true;
-    },
-    [types.HIDE_PUBLISH]: (state) => {
-      state.pbShow = false;
-    },
-    // 显示闭市发布求购面板
-    [types.SHOW_PANEL]: (state) => {
-      state.pbPanel = true
-    },
-    // 关闭闭市发布求购面板
-    [types.HIDE_PANEL]: (state) => {
-      state.pbPanel = false
     }
   }
 });

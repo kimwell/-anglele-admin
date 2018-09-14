@@ -355,6 +355,7 @@
         background-image: none;
         border: 1px solid transparent;
         white-space: nowrap;
+        margin-bottom: 10px;
         line-height: 1.5;
         -webkit-user-select: none;
         -moz-user-select: none;

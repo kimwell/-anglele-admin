@@ -2,7 +2,7 @@
   <div class="page-inner">
     <Card :bordered="true" dis-hover title="菜单管理">
       <Button type="primary" slot="extra" class="extra-button" @click="openPanel(false)">新增菜单</Button>
-      <menuZtree :list.sync='list' :func="nodeClick" :is-open='false'></menuZtree>
+      <menuZtree :list.sync='list' :func="nodeClick" :is-open='true'></menuZtree>
     </Card>
     <!-- 添加修改面板 -->
     <Modal v-model="show" :title="isEdit ? '编辑菜单':'新增菜单'" :closable="false">

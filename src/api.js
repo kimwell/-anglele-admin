@@ -5,6 +5,23 @@ export const upload = 'http://192.168.0.160:8080/auth/file/upload'
 
 
 /**
+ * 登录
+ */
+export const login = '/auth/login'
+
+/**
+ * 获取验证码
+ */
+export const captcha = '/auth/captcha'
+
+/**
+ * 获取用户信息
+ */
+export const findCurrentUser = '/auth/baseuser/findCurrentUser'
+
+
+
+/**
  * 查询已分组接口
  */
 export const findPermissionListWithTag = '/auth/permission/findPermissionListWithTag'
