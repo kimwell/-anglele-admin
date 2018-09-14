@@ -74,7 +74,7 @@
       </Form>
       <div slot="footer">
         <Button type="primary" @click="submitGroup('formGroup')" :loading="loading">保存</Button>
-        <Button @click="resetGroup('formGroup')">取消</Button>
+        <Button @click="resetGroups('formGroup')">取消</Button>
       </div>
     </Modal>
     <Modal title="编辑接口" width="600" v-model="show" :mask-closable="false">
@@ -301,8 +301,8 @@
           }
         })
       },
-      resetGroup(name) {
-        this.show = false;
+      resetGroups(name) {
+        this.groupShow = false;
         this.groupApi.name = '';
         this.$refs[name].resetFields();
       },

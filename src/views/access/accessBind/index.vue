@@ -21,7 +21,7 @@
       <div class="card-contnet">
         <div class="table-contnet">
           <Row class-name="head">
-            <Col class-name="col" span="4">角色名称</Col>
+            <Col class-name="col" span="4">用户名称</Col>
             <Col class-name="col" span="4">账号</Col>
             <Col class-name="col" span="4">状态</Col>
             <Col class-name="col" span="8">角色</Col>
@@ -305,10 +305,10 @@
               if (res.code === 1000) {
                 this.$Message.success(this.isEdit ? '编辑成功' : '保存成功')
                 this.getList(this.pageFilter);
+                this.show = false;
               } else {
                 this.$Message.error(res.message);
               }
-              this.show = false;
               this.loading = false;
             })
           } else {
@@ -380,10 +380,10 @@
             this.$http.post(this.$api.updatePhone, params).then(res => {
               if (res.code === 1000) {
                 this.$Message.success('修改成功')
+                this.psdShow = false;
               } else {
                 this.$Message.error(res.message);
               }
-              this.psdShow = false;
               this.loading = false;
             })
           } else {
