@@ -1,6 +1,6 @@
 <template>
   <div class="layout-header">
-    <a class="logo">
+    <a class="logo" href="/bg/index">
       <img :src="userInfo ? userInfo.avatar:''">
     </a>
     <ul>

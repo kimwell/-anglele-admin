@@ -15,7 +15,7 @@ import router from './router'
 if (process.env.NODE_ENV == 'development')
   axios.defaults.baseURL = 'http://192.168.0.252:8081';
 // axios.defaults.baseURL = 'http://192.168.0.160:8080'; //胡
-axios.defaults.baseURL = 'http://192.168.0.241:8080'; //胡
+axios.defaults.baseURL = 'http://192.168.0.241:8080'; //陈
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'; //配置请求头
 axios.defaults.withCredentials = true;
 
@@ -40,7 +40,7 @@ axios.interceptors.response.use(response => {
   if (response.data.code === 403) {
     if (router.currentRoute.name != 'index') {
       Modal.confirm({
-        content: '登录过期，请重新登录。',
+        content: response.data.message,
         onOk() {
           //清除token信息并跳转到登录页面
           store.commit(types.LOGOUT);
@@ -58,18 +58,18 @@ axios.interceptors.response.use(response => {
         }
       })
     }
-  } else if (response.data.code === 1002) {
+  } else if (response.data.code === 401) {
     Modal.confirm({
-        content: '您还不是商户，请认证！',
+        content: response.data.message,
         onOk() {
-            router.replace({
-                path: '/index'
-            })
-        },
-        onCancel() {
             router.replace({
                 path: '/'
             })
+        },
+        onCancel() {
+          router.replace({
+            path: '/'
+          })
         }
     })
   }

@@ -165,6 +165,12 @@ export const modifyBaseUser = '/auth/baseuser/modifyBaseUser'
 /**
  * 角色菜单查询
  */
+export const updatePhone = '/auth/baseuser/updatePhone'
+
+
+/**
+ * 角色菜单查询
+ */
 export const findMenu = '/auth/role/findMenu'
 
 

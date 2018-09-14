@@ -11,8 +11,8 @@
         </FormItem>
         <FormItem label="性别：">
           <Select v-model="pageApi.sex" :clearable="true" style="width: 160px;">
-            <Option v-for="(item,index) in [{id:'0',name:'女'},{id:'1',name:'男'},{id:'2',name:'未知'}]" :value="item.id" :key="index">{{ item.name }}</Option>
-          </Select>
+              <Option v-for="(item,index) in [{id:'0',name:'女'},{id:'1',name:'男'},{id:'2',name:'未知'}]" :value="item.id" :key="index">{{ item.name }}</Option>
+            </Select>
         </FormItem>
         <FormItem>
           <Button type="warning" @click.native="resetFilter">清除</Button>
@@ -31,14 +31,15 @@
             <Col class-name="col" span="4">{{item.userName}}</Col>
             <Col class-name="col" span="4">{{item.phone}}</Col>
             <Col class-name="col" span="4">
-                <Button type="primary" ghost @click="changeStatus(item)">{{item.status === 1 ? '正常':'禁用'}}</Button>
+            <Button type="primary" ghost @click="changeStatus(item)">{{item.status === 1 ? '正常':'禁用'}}</Button>
             </Col>
             <Col class-name="col" span="8">
             <Tag v-for="(sub,index) in item.roles" :key="index" color="primary">{{sub.name}}</Tag>
             </Col>
             <Col class-name="col" span="4">
-            <Button type="warning" size="small" @click="openPanel(true,item)" style="margin: 0 10px;">编辑</Button>
-            <Button type="warning" size="small" @click="delUser(item)">删除</Button>
+            <Button type="warning" size="small" @click="openPanel(true,item)">编辑</Button>
+            <Button type="warning" size="small" @click="delUser(item)" style="margin: 0 10px;">删除</Button>
+            <Button type="warning" size="small" @click="modifyPsd(item)">修改账号</Button>
             </Col>
           </Row>
           </Row>
@@ -74,8 +75,8 @@
         </FormItem>
         <FormItem label="设置角色：" prop="roleIds">
           <Select v-model="dataApi.roleIds" multiple :clearable="true" style="width: 100%;">
-                <Option v-for="(item,index) in roleList" :value="item.id" :key="index">{{ item.name }}</Option>
-              </Select>
+                  <Option v-for="(item,index) in roleList" :value="item.id" :key="index">{{ item.name }}</Option>
+                </Select>
         </FormItem>
         <FormItem label="性别：">
           <RadioGroup v-model="dataApi.sex">
@@ -96,13 +97,31 @@
         <Button @click="reset('formModel')">取消</Button>
       </div>
     </Modal>
+    <Modal title="修改账号" width="600" v-model="psdShow" :mask-closable="false">
+      <Form ref="formPsd" :model="psdApi" :rules="psdRule" :label-width="100">
+        <FormItem label="账号：" prop="phone">
+          <Input v-model="psdApi.phone" placeholder="请输入..."></Input>
+        </FormItem>
+        <FormItem label="新密码：" prop="newPassword">
+          <Input v-model="psdApi.newPassword" type="password" placeholder="请输入..."></Input>
+        </FormItem>
+        <FormItem label="确认新密码：" prop="newPasswordAgain">
+          <Input v-model="psdApi.newPasswordAgain" type="password" placeholder="请输入..."></Input>
+        </FormItem>
+      </Form>
+      <div slot="footer">
+        <Button type="primary" @click="submitPsd('formPsd')" :loading="loading">保存</Button>
+        <Button @click="resetPsd('formPsd')">取消</Button>
+      </div>
+    </Modal>
   </div>
 </template>
 
 <script>
-import uploadBtn from '@/components/uploadBtn'
+  import uploadBtn from '@/components/uploadBtn'
+  import treeItemVue from '../../../components/menuTree/treeItem.vue';
   export default {
-    components:{
+    components: {
       uploadBtn
     },
     data() {
@@ -151,10 +170,34 @@ import uploadBtn from '@/components/uploadBtn'
             required: true,
             message: '不能为空',
             trigger: 'change',
-            type:'array'
+            type: 'array'
           }]
         },
-        loading: false
+        psdRule: {
+          phone: [{
+            required: true,
+            message: '不能为空',
+            trigger: 'blur'
+          }],
+          newPassword: [{
+            required: true,
+            message: '不能为空',
+            trigger: 'blur'
+          }],
+          newPasswordAgain: [{
+            required: true,
+            message: '不能为空',
+            trigger: 'blur'
+          }]
+        },
+        loading: false,
+        psdShow: false,
+        psdApi: {
+          id: '',
+          phone: '',
+          newPassword: '',
+          newPasswordAgain: ''
+        }
       }
     },
     watch: {
@@ -222,8 +265,8 @@ import uploadBtn from '@/components/uploadBtn'
             realName: item.realName,
             roleIds: []
           }
-          if(item.roles.length > 0){
-            item.roles.map(el =>{
+          if (item.roles.length > 0) {
+            item.roles.map(el => {
               this.dataApi.roleIds.push(el.id);
             })
           }
@@ -250,15 +293,17 @@ import uploadBtn from '@/components/uploadBtn'
           if (valid) {
             this.loading = true;
             let params = this.$clearData(this.dataApi);
-            params.birth = params.birth != '' ? params.birth.getTime() :'';
-            params.roleIds = JSON.stringify(params.roleIds)
-            if(this.isEdit){
+            params.birth = params.birth != '' ? params.birth.getTime() : '';
+            params.roleIds = JSON.stringify(params.roleIds);
+            if (this.isEdit) {
               params.id = this.editItem.id;
+            }else{
+              params.password = this.$md5(params.password)
             }
             let urlApi = this.isEdit ? this.$api.updateBaseUser : this.$api.saveBaseUser;
             this.$http.post(urlApi, params).then(res => {
               if (res.code === 1000) {
-                this.$Message.success(this.isEdit ? '编辑成功':'保存成功')
+                this.$Message.success(this.isEdit ? '编辑成功' : '保存成功')
                 this.getList(this.pageFilter);
               } else {
                 this.$Message.error(res.message);
@@ -271,7 +316,7 @@ import uploadBtn from '@/components/uploadBtn'
           }
         })
       },
-      delUser(item){
+      delUser(item) {
         this.$Modal.confirm({
           title: '删除确认',
           content: '此操作将无法撤销,是否继续？',
@@ -296,7 +341,7 @@ import uploadBtn from '@/components/uploadBtn'
         this.$refs[name].resetFields();
       },
       // 更改状态
-      changeStatus(item){
+      changeStatus(item) {
         this.$Modal.confirm({
           title: '更改状态',
           content: '确认更改状态,是否继续？',
@@ -314,6 +359,42 @@ import uploadBtn from '@/components/uploadBtn'
             })
           }
         })
+      },
+      modifyPsd(item) {
+        this.psdShow = true;
+        this.psdApi = {
+          id: item.id,
+          phone: item.phone,
+          newPassword: '',
+          newPasswordAgain: ''
+        }
+      },
+      /// 修改密码
+      submitPsd(name) {
+        this.$refs[name].validate((valid) => {
+          if (valid) {
+            this.loading = true;
+            let params = this.$clearData(this.psdApi);
+            params.newPassword = this.$md5(params.newPassword);
+            params.newPasswordAgain = this.$md5(params.newPasswordAgain);
+            this.$http.post(this.$api.updatePhone, params).then(res => {
+              if (res.code === 1000) {
+                this.$Message.success('修改成功')
+              } else {
+                this.$Message.error(res.message);
+              }
+              this.psdShow = false;
+              this.loading = false;
+            })
+          } else {
+            this.$Message.error('表单验证失败');
+          }
+        })
+      },
+      /// 取消修改密码
+      resetPsd(name) {
+        this.psdShow = false;
+        this.$refs[name].resetFields();
       }
     },
     created() {

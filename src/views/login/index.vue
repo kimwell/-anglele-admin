@@ -43,12 +43,12 @@
           }],
           code: [{
             required: true,
-            message: '用户名/手机号不能为空',
+            message: '验证码不能为空',
             trigger: 'blur'
           }],
           password: [{
             required: true,
-            message: '用户名/手机号不能为空',
+            message: '密码不能为空',
             trigger: 'blur'
           }]
         },
@@ -91,6 +91,7 @@
                   desc: '恭喜你登录成功，快来体验吧！'
                 })
               } else {
+                this.getUid();
                 this.$Message.error(res.message);
               }
               this.loading = false;
@@ -101,8 +102,6 @@
         })
       },
       reset(name) {
-
-        
         this.$refs[name].resetFields();
       }
     },
