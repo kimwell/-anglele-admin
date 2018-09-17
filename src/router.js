@@ -12,6 +12,7 @@ Vue.use(Router);
 const router = new Router({
   mode: 'history',
   base: '/auth/bg/',
+  linkActiveClass: 'current',
   routes: [{
       path: '/',
       name: 'main',

@@ -1,4 +1,4 @@
-[{
+export default [{
   "appCode": "AUTH",
   "children": [{
     "appCode": "AUTH",
