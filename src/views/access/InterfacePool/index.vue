@@ -1,7 +1,8 @@
 <template>
   <div class="page-inner">
     <Card :bordered="true" dis-hover title="接口池管理">
-      <Button type="primary" slot="extra" class="extra-button" :loading="loading" @click="syncPermission">同步接口</Button>
+      <Button type="primary" slot="extra" class="extra-button" @click="syncPermission">同步接口</Button>
+      <Button type="primary" slot="extra" class="extra-button"  @click="multipleBind" style="margin-left: 10px;">批量绑定</Button>
       <Form :mode="pageApi" :label-width="100" inline>
         <FormItem label="接口名称：">
           <Input type="text" v-model="pageApi.name" placeholder="请输入..."></Input>
@@ -11,8 +12,8 @@
         </FormItem>
         <FormItem label="接口类型：">
           <Select v-model="pageApi.permissionFun" :clearable="true" style="width: 160px;">
-                          <Option v-for="(item,index) in [{id:'0',name:'未标识'},{id:'1',name:'新增'},{id:'2',name:'删除'},{id:'3',name:'更新'},{id:'4',name:'查询'}]" :value="item.id" :key="index">{{ item.name }}</Option>
-                        </Select>
+                        <Option v-for="(item,index) in [{id:'0',name:'未标识'},{id:'1',name:'新增'},{id:'2',name:'删除'},{id:'3',name:'更新'},{id:'4',name:'查询'}]" :value="item.id" :key="index">{{ item.name }}</Option>
+                      </Select>
         </FormItem>
         <FormItem>
           <Button type="warning" @click.native="resetFilter">清除</Button>
@@ -21,8 +22,11 @@
       <div class="card-contnet">
         <div class="table-contnet">
           <Row class-name="head">
-            <Col class-name="col" span="4">接口名称</Col>
-            <Col class-name="col" span="4">接口地址</Col>
+            <Col class-name="col" span="2">
+            <Checkbox :indeterminate="indeterminate" :value="checkAll" @click.prevent.native="handleCheckAll">全选</Checkbox>
+            </Col>
+            <Col class-name="col" span="3">接口名称</Col>
+            <Col class-name="col" span="3">接口地址</Col>
             <Col class-name="col" span="3">接口类型</Col>
             <Col class-name="col" span="3">资源访问类型</Col>
             <Col class-name="col" span="3">最近更新人</Col>
@@ -30,17 +34,22 @@
             <Col class-name="col" span="4">操作</Col>
           </Row>
           <Row v-for="(item,index) in list" :key="index">
-            <Col class-name="col" span="4">{{item.name}}</Col>
-            <Col class-name="col" span="4">{{item.path}}</Col>
-            <Col class-name="col" span="3">{{item.permissionFun | types}}</Col>
-            <Col class-name="col" span="3">{{item.permissionType === 1 ? '不需要登录':'需要登录'}}</Col>
-            <Col class-name="col" span="3">{{item.updateUser}}</Col>
-            <Col class-name="col" span="3">{{item.updateTime | dateformat}}</Col>
-            <Col class-name="col" span="4" class="options">
-            <Button type="primary" size="small" @click="openPanel(item)">编辑</Button>
-            <Button type="primary" size="small" @click="changeGroup(item)" style="margin:0 10px;">添加分组</Button>
-            <!-- <Button type="error" size="small" @click="delTag(item)">删除</Button> -->
-            </Col>
+            <CheckboxGroup v-model="multipleApi.ids" @on-change="checkAllGroupChange">
+              <Col class-name="col" span="2">
+              <Checkbox :label="item.id"><label></label></Checkbox>
+              </Col>
+              <Col class-name="col" span="3">{{item.name}}</Col>
+              <Col class-name="col" span="3">{{item.path}}</Col>
+              <Col class-name="col" span="3">{{item.permissionFun | types}}</Col>
+              <Col class-name="col" span="3">{{item.permissionType === 1 ? '不需要登录':'需要登录'}}</Col>
+              <Col class-name="col" span="3">{{item.updateUser}}</Col>
+              <Col class-name="col" span="3">{{item.updateTime | dateformat}}</Col>
+              <Col class-name="col" span="4" class="options">
+              <Button type="primary" size="small" @click="openPanel(item)">编辑</Button>
+              <Button type="primary" size="small" @click="changeGroup(item)" style="margin:0 10px;">添加分组</Button>
+              <!-- <Button type="error" size="small" @click="delTag(item)">删除</Button> -->
+              </Col>
+            </CheckboxGroup>
           </Row>
           <Row v-if="list.length == 0">
             <Col class-name="col" span="24">暂无数据</Col>
@@ -89,13 +98,26 @@
         </FormItem>
         <FormItem label="接口分组：" prop="tags">
           <Select v-model="tagApi.tags" multiple :clearable="true" style="width: 100%;">
-                <Option v-for="(item,index) in tagList" :value="item.id" :key="index">{{ item.name }}</Option>
-              </Select>
+              <Option v-for="(item,index) in tagList" :value="item.id" :key="index">{{ item.name }}</Option>
+            </Select>
         </FormItem>
       </Form>
       <div slot="footer">
         <Button type="primary" @click="saveGroup('formModel2')" :loading="loading">保存</Button>
         <Button @click="resetGroup('formModel2')">取消</Button>
+      </div>
+    </Modal>
+    <Modal title="选择分组" width="600" v-model="multipleShow" :mask-closable="false">
+      <Form ref="formModel3" :model="multipleApi" :rules="multipRule" :label-width="100">
+        <FormItem label="接口分组：" prop="tags">
+          <Select v-model="multipleApi.tags" multiple :clearable="true" style="width: 100%;">
+              <Option v-for="(item,index) in tagList" :value="item.id" :key="index">{{ item.name }}</Option>
+            </Select>
+        </FormItem>
+      </Form>
+      <div slot="footer">
+        <Button type="primary" @click="saveMultiple('formModel3')" :loading="loading">保存</Button>
+        <Button @click="resetMultiple('formModel3')">取消</Button>
       </div>
     </Modal>
   </div>
@@ -122,8 +144,23 @@
           permissionType: 2,
           permissionFun: 1
         },
+        multipleApi: {
+          ids: [],
+          tags: []
+        },
+        indeterminate: false,
+        checkAll: false,
+        multipleShow: false,
         show: false,
         loading: false,
+        multipRule: {
+          tags: [{
+            required: true,
+            message: '分组不能为空',
+            trigger: 'change',
+            type: 'array'
+          }]
+        },
         rule: {
           name: [{
             required: true,
@@ -142,7 +179,7 @@
             message: '分组不能为空',
             trigger: 'change',
             type: 'array'
-          }],
+          }]
         },
         tagList: [],
         tagShow: false,
@@ -182,13 +219,88 @@
       }
     },
     methods: {
+      //  全选
+      handleCheckAll() {
+        if (this.indeterminate) {
+          this.checkAll = false;
+        } else {
+          this.checkAll = !this.checkAll;
+        }
+        this.indeterminate = false;
+        if (this.checkAll) {
+          this.list.map(el => {
+            this.multipleApi.ids.push(el.id)
+          })
+        } else {
+          this.multipleApi.ids = [];
+        }
+      },
+      checkAllGroupChange(data) {
+        if (data.length === this.list.length) {
+          this.indeterminate = false;
+          this.checkAll = true;
+        } else if (data.length > 0) {
+          this.indeterminate = true;
+          this.checkAll = false;
+        } else {
+          this.indeterminate = false;
+          this.checkAll = false;
+        }
+      },
+      multipleBind() {
+        let ok = this.multipleApi.ids.length > 0;
+        if (ok) {
+          this.multipleShow = true;
+        } else {
+          this.$Message.error('请选择接口')
+        }
+      },
+      //  保存完成重置选择数据
+      resetMultipleApi() {
+        this.checkAll = false;
+        this.indeterminate = false;
+        this.multipleApi = {
+          ids: [],
+          tags: []
+        }
+      },
+      // 批量保存
+      saveMultiple(name) {
+        this.$refs[name].validate((valid) => {
+          if (valid) {
+            this.loading = true;
+            let params = this.$clearData(this.multipleApi);
+            params.ids = JSON.stringify(params.ids);
+            params.tags = params.tags.toString();
+            this.$http.post(this.$api.addAllPermissionTags, params).then(res => {
+              if (res.code === 1000) {
+                this.$Message.success('绑定成功')
+                this.getList(this.pageFilter);
+                this.multipleShow = false;
+                this.resetMultipleApi();
+              } else {
+                this.$Message.error(res.message);
+              }
+              this.loading = false;
+            })
+          } else {
+            this.$Message.error('表单验证失败');
+          }
+        })
+      },
+      // 重置批量
+      resetMultiple(name) {
+        this.multipleShow = false;
+        this.multipleApi.tags = [];
+        this.$refs[name].resetFields();
+      },
       // 同步接口
-      syncPermission(){
+      syncPermission() {
         this.loading = true;
-        this.$http.post(this.$api.syncPermission).then(res =>{
-          if(res.code === 1000){
+        this.$http.post(this.$api.syncPermission).then(res => {
+          if (res.code === 1000) {
             this.$Message.success('同步成功');
-          }else{
+          } else {
             this.$Message.error(res.message);
           }
           this.loading = false;

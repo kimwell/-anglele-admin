@@ -190,3 +190,8 @@ export const editMenu = '/auth/role/editMenu'
  * 角色菜单查询
  */
 export const syncPermission = '/auth/permission/syncPermission'
+
+/**
+ * 批量编辑资源分组
+ */
+export const addAllPermissionTags = '/auth/permission/addAllPermissionTags'

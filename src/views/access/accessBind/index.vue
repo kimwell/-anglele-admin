@@ -119,7 +119,6 @@
 
 <script>
   import uploadBtn from '@/components/uploadBtn'
-  import treeItemVue from '../../../components/menuTree/treeItem.vue';
   export default {
     components: {
       uploadBtn

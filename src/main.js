@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
-import 'iview/dist/styles/iview.css';
 import iView from 'iview';
+import 'iview/dist/styles/iview.css';
 import router from './router'
 import store from './store/store'
 import clickoutside from './directives/clickoutside'
