@@ -59,7 +59,7 @@
       picCodeUrl() {
         let host = "";
         if (window.location.hostname == "localhost")
-          host = "http://192.168.0.252:8081";
+          host = "https://192.168.0.252";
         return host + this.$api.captcha + "?r=" + this.random;
       }
     },

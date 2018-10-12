@@ -216,6 +216,9 @@
           phone: this.pageApi.phone,
           sex: this.pageApi.sex
         }
+      },
+      birth(){
+        return this.dataApi.birth != '' ? this.dataApi.birth.getTime() : ''
       }
     },
     methods: {
@@ -292,7 +295,7 @@
           if (valid) {
             this.loading = true;
             let params = this.$clearData(this.dataApi);
-            params.birth = params.birth != '' ? params.birth.getTime() : '';
+            params.birth = this.birth != '' ? this.birth : '';
             params.roleIds = JSON.stringify(params.roleIds);
             if (this.isEdit) {
               params.id = this.editItem.id;
